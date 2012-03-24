@@ -6,8 +6,10 @@ import fullscreen.*;
 import processing.video.*;
 
 // SETTINGS BEGIN
-boolean fullScreen = true;
+boolean fullScreen = false;
 String arssPath = "/Users/juraj/arss/arss";
+
+boolean bwMode = true;
 
 // SETTINGS END
 
@@ -84,6 +86,10 @@ void captureEvent(Capture myCapture) {
 void drawAudioFrame(int x, int y, AudioSnippet aS, PImage img) {
   if (img != null)
   image(img, x, y, camWidth/3, camHeight/3);
+  
+  noFill();
+  stroke(255);
+  rect(x-1, y-1, (camWidth/3) + 1, (camHeight/3) + 1);
 
   stroke(255,0,0);
   fill(255,0,0);
@@ -104,7 +110,41 @@ void draw() {
   rect(0,0,camWidth+1,camHeight+1);
   camImg.copy(myCapture, 0, 0, camWidth, camHeight, 0, 0, camWidth, camHeight);
   image(camImg,50, camHeight+50, camWidth/3, camHeight/3);
+  
+  if (bwMode) {
   camImg.filter(THRESHOLD, contrast);
+  } else {
+   camImg.filter(GRAY);
+   
+   // greyscale mode
+   camImg.loadPixels();
+   
+   
+   /*long value=0;
+   int count=0;
+  
+   for (int x=0;x<camWidth-20;x+=20)
+   for (int y=0;y<camHeight-20;y+=20) {
+    value+=camImg.get(x,y);
+    count++;
+   } 
+  
+  int avg=(int) (value/count);
+  int adjustment=127-avg;*/
+  
+  for (int x=0;x<camWidth;x++)
+   for (int y=0;y<camHeight;y++) {
+     if (red(camImg.pixels[x+(y*camWidth)]) > 255*(1-(contrast*1.8)))
+      camImg.pixels[x+(y*camWidth)] = color(255);
+   } 
+   
+   camImg.updatePixels();
+  
+  
+
+  }
+  
+  
   camImg.filter(INVERT);
   image(camImg, 0, 0);
   
@@ -132,9 +172,12 @@ void loadWaveToLayer(int i) {
  }
  
  void toggleLayer(int i) {
+   
+   if (layerSound[i]!=null) {
       if (layerSound[i].isPlaying())
      layerSound[i].pause();
     else layerSound[i].loop(); 
+   }
  }
  
 
@@ -167,7 +210,9 @@ void keyPressed() {
  if (key == 'b') contrast = 0.35;
  if (key == 'n') contrast = 0.4;
  if (key == 'm') contrast = 0.45;
- if (key == '<') contrast = 0.5;    
+ if (key == '<') contrast = 0.5;   
+
+if (key == 'a') bwMode = !bwMode; 
 }
 
 
