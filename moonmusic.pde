@@ -6,7 +6,7 @@ import fullscreen.*;
 import processing.video.*;
 
 // SETTINGS BEGIN
-boolean fullScreen = false;
+boolean fullScreen = true;
 String arssPath = "/Users/juraj/arss/arss";
 
 boolean bwMode = true;
@@ -26,6 +26,7 @@ PImage camImg;
 PImage lastImg;
 PImage layerImg[];
 AudioSnippet layerSound[];
+boolean doInvert = true;
 
 float contrast = 0.2;
 
@@ -132,6 +133,7 @@ void draw() {
   int avg=(int) (value/count);
   int adjustment=127-avg;*/
   
+  if (contrast != 0.2) {
   for (int x=0;x<camWidth;x++)
    for (int y=0;y<camHeight;y++) {
      if (red(camImg.pixels[x+(y*camWidth)]) > 255*(1-(contrast*1.8)))
@@ -139,13 +141,13 @@ void draw() {
    } 
    
    camImg.updatePixels();
-  
+  }
   
 
   }
   
   
-  camImg.filter(INVERT);
+  if (doInvert) camImg.filter(INVERT);
   image(camImg, 0, 0);
   
   
@@ -210,9 +212,11 @@ void keyPressed() {
  if (key == 'b') contrast = 0.35;
  if (key == 'n') contrast = 0.4;
  if (key == 'm') contrast = 0.45;
- if (key == '<') contrast = 0.5;   
+ if (key == ',') contrast = 0.5;   
 
 if (key == 'a') bwMode = !bwMode; 
+if (key == 'i') doInvert = !doInvert; 
+
 }
 
 
