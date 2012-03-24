@@ -1,0 +1,34 @@
+This is an experimental synthesizer based on 
+http://arss.sourceforge.net/
+
+Our code is released under BSD license.
+
+(c) 2012 Juraj Bednar <jooray+moonmusic@gmail.com>
+         Radovan Misovic <lol@sn0wcrash.net>
+
+Created at music hack day
+
+Installation
+------------
+
+Download and install arss, open this sketch in Processing.org,
+install Minim (may be already part of your Processing distribution),
+fullscreen.
+
+Edit path to arss on the top of the file
+
+Run and enjoy
+
+Usage
+-----
+
+ENTER stores and analyses the image coming from default camera
+
+!, @, # (Shift-1, Shift-2, Shift-3 on US keyboard) loads the analyzed image
+to layer 1, 2, 3
+
+1, 2, 3 toggles playing of the particular layer (it always plays from the
+start, think about it when timing the run)
+
+keys z,x,c,...,< (lower part of US keyboard) control b/w threshold
+
