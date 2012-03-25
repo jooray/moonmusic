@@ -107,7 +107,12 @@ void drawAudioFrame(int x, int y, AudioSnippet aS, PImage img) {
 }
 void draw() {
   background(0);
+  
+  
   stroke(255);
+  
+  text(" LAST.FM: 1.5.4",950,740);
+
   rect(0,0,camWidth+1,camHeight+1);
   camImg.copy(myCapture, 0, 0, camWidth, camHeight, 0, 0, camWidth, camHeight);
   image(camImg,50, camHeight+50, camWidth/3, camHeight/3);
