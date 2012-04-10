@@ -15,6 +15,14 @@ Download and install arss, open this sketch in Processing.org,
 install Minim (may be already part of your Processing distribution),
 fullscreen.
 
+We switched to OpenCV from processing.video for webcam capture,
+because processing.video does not work under Linux. You have
+two options: install OpenCV on any platform or edit the source
+and change according to comments (Processing capture parts
+are marked and commented, you need to comment out OpenCV parts.
+Sadly, processing nor java have preprocessor, so apart from maintaining
+two branches, there is no way to switch it easily).
+
 Edit path to arss on the top of the file
 
 Run and enjoy

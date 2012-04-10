@@ -3,7 +3,13 @@ import ddf.minim.signals.*;
 import ddf.minim.analysis.*;
 import ddf.minim.effects.*;
 import fullscreen.*;
-import processing.video.*;
+
+// Processing capture
+// import processing.video.*;
+
+// OpenCV capture
+import hypermedia.video.*;
+
 
 // SETTINGS BEGIN
 boolean fullScreen = true;
@@ -16,8 +22,11 @@ boolean bwMode = true;
 
 FullScreen fs;
 
-Capture myCapture;
+// Processing capture
+// Capture myCapture;
 
+// OpenCV capture
+OpenCV opencv;
 
 
 int camWidth; 
@@ -47,6 +56,10 @@ void setup()
    cursor(c, 7, 7);
  }
 
+  camWidth = 2*(width/3);
+  camHeight = (int)abs(0.7*2*(width/3));
+
+
 
   // The name of the capture device is dependent on
   // the cameras that are currently attached to your 
@@ -59,10 +72,17 @@ void setup()
   //myCapture = new Capture(this, width, height, "DV Video", 30);
   
   // This code will try to use the camera used
-  camWidth = 2*(width/3);
-  camHeight = (int)abs(0.7*2*(width/3));
+
+// Processing capture
+//  myCapture = new Capture(this, camWidth , camHeight, 2);
+
+// OpenCV capture
+  opencv = new OpenCV(this);
+  opencv.capture(camWidth, camHeight);
+// End OpenCV capture
+
   background(0);
-  myCapture = new Capture(this, camWidth , camHeight, 2);
+
   frameRate(5);
   camImg = createImage(camWidth, camHeight, RGB);
   lastImg = createImage(camWidth, camHeight, RGB);
@@ -80,9 +100,12 @@ void setup()
  
 }
 
+// Processing capture
+/*
 void captureEvent(Capture myCapture) {
   myCapture.read();
 }
+*/
 
 void drawAudioFrame(int x, int y, AudioSnippet aS, PImage img) {
   if (img != null)
@@ -110,7 +133,13 @@ void draw() {
   stroke(255);
   
   rect(0,0,camWidth+1,camHeight+1);
-  camImg.copy(myCapture, 0, 0, camWidth, camHeight, 0, 0, camWidth, camHeight);
+  // Processing capture
+//  camImg.copy(myCapture, 0, 0, camWidth, camHeight, 0, 0, camWidth, camHeight);
+  // OpenCV capture
+  opencv.read();
+  camImg.copy(opencv.image(), 0, 0, camWidth, camHeight, 0, 0, camWidth, camHeight);
+  // End OpenCV capture
+  
   image(camImg,50, camHeight+50, camWidth/3, camHeight/3);
   
   if (bwMode) {
